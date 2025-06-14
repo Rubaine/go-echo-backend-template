@@ -1,7 +1,7 @@
 package authHandler
 
 import (
-	"backend-template/models/user"
+	"example.com/template/models/user"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

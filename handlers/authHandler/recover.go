@@ -1,9 +1,9 @@
 package authHandler
 
 import (
-	"backend-template/config"
-	"backend-template/email"
-	"backend-template/models/user"
+	"example.com/template/config"
+	"example.com/template/email"
+	"example.com/template/models/user"
 	"net/http"
 
 	"github.com/charmbracelet/log"
@@ -45,15 +45,15 @@ func recover(c echo.Context) error {
 
 	// Send email with recover token
 	btnURL := config.Config.FrontURL + "/reset_password/?recover_token=" + recoverToken
-	subject := "Robert AI - Password recovery"
-	text := "A password reset request has been made for your Robert account using your email address. " +
+	subject := "Password recovery"
+	text := "A password reset request has been made for your account using your email address. " +
 		"To complete this process, click the button below :"
 	btnText := "RESET PASSWORD"
 
 	err = email.New(askRecoverForm.Email, subject, subject, text, btnText, btnURL).Send(config.Config.Email)
 	if err != nil {
 		log.Error("Failed to send reset email", "email", askRecoverForm.Email, "error", err)
-		return c.JSON(http.StatusInternalServerError, RecoverError400{Message: "Failed to send reset email, please contact support at support@robert.fr"})
+		return c.JSON(http.StatusInternalServerError, RecoverError400{Message: "Failed to send reset email, please contact support at support@example.com"})
 	}
 
 	return c.NoContent(http.StatusCreated)

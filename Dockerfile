@@ -11,5 +11,5 @@ RUN go build -o /builder/build
 FROM alpine:3.21
     
 WORKDIR /app
-COPY --from=builder --chmod=755 /builder/build /app/marketplace
-ENTRYPOINT ["/app/marketplace"]
+COPY --from=builder --chmod=755 /builder/build /app/app
+ENTRYPOINT ["/app/app"]

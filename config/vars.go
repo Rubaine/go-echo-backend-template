@@ -1,8 +1,8 @@
 package config
 
 import (
-	"backend-template/email"
 	"embed"
+	"example.com/template/email"
 	"html/template"
 	"os"
 

@@ -1,6 +1,6 @@
 package authHandler
 
-import "backend-template/models"
+import "example.com/template/models"
 
 func All(prefix string) (routes []models.Route) {
 	routes = append(routes, models.Route{

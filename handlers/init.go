@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"backend-template/handlers/authHandler"
-	"backend-template/models"
+	"example.com/template/handlers/authHandler"
+	"example.com/template/models"
 
 	"github.com/labstack/echo/v4"
 )
