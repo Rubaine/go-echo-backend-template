@@ -1,7 +1,7 @@
 package authHandler
 
 import (
-	"backend-template/models/user"
+	"example.com/template/models/user"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -20,7 +20,7 @@ type LogoutError401 struct {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param Robert-Connect-Token header string true "Session token"
+// @Param Auth-Token header string true "Session token"
 // @Success 200 {object} LogoutResponse
 // @Failure 401 {object} LogoutError401
 // @Router /auth/logout [post]

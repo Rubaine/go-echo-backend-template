@@ -2,9 +2,9 @@ services:
   database:
     image: postgres:13
     environment:
-      POSTGRES_USER: rubaine
-      POSTGRES_PASSWORD: caca
-      POSTGRES_DB: marketplace
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
     volumes:
       - database:/var/lib/postgresql/data
   backend:
@@ -17,16 +17,16 @@ services:
     depends_on:
       - database
     environment:
-      - POSTGRES_USER=rubaine
-      - POSTGRES_PASSWORD=caca
+      - POSTGRES_USER=example
+      - POSTGRES_PASSWORD=example
       - POSTGRES_HOST=database
-      - POSTGRES_DB=marketplace
+      - POSTGRES_DB=example
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=587
       - SMTP_USER=no
       - SMTP_PASSWORD=no
       - SMTP_DISPLAYNAME=no
-      - FRONT_URL=https://robertai.fr
+      - FRONT_URL=https://example.com
       - LOG_LEVEL=debug
       - LISTEN_PORT=80
       - MAX_BODY_SIZE=20M

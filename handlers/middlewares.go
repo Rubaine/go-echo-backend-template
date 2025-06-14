@@ -1,17 +1,17 @@
 package handlers
 
 import (
-	"backend-template/models/user"
+	"example.com/template/models/user"
 
 	"github.com/labstack/echo/v4"
 )
 
 const (
-	TokenKeyName = "Robert-Connect-Token"
+	TokenKeyName = "Auth-Token"
 )
 
 type Header struct {
-	TokenID string `header:"Robert-Connect-Token"`
+	TokenID string `header:"Auth-Token"`
 }
 
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {

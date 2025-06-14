@@ -1,8 +1,8 @@
 package user
 
 import (
-	"backend-template/models/postgresql"
 	"database/sql"
+	"example.com/template/models/postgresql"
 	"time"
 
 	"github.com/charmbracelet/log"
@@ -321,9 +321,9 @@ func IsInOrganization(userId, orgId int64) (ok bool) {
 
 func ListOrganizationMembers(orgID int64) (users UserList, err error) {
 
-	query := `SELECT a.* 
-				FROM account a 
-				JOIN account_in_organization aio ON a.id = aio.account 
+	query := `SELECT a.*
+				FROM account a
+				JOIN account_in_organization aio ON a.id = aio.account
 				WHERE aio.organization = $1`
 
 	sqlCo, err := pgx.ConnectConfig(postgresql.SQLCtx, postgresql.SQLConn)

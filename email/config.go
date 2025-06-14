@@ -51,7 +51,7 @@ func ServiceFromEnv(recoverTemplate *template.Template) (*EmailService, error) {
 func OVHConfigFromEnv() (*SMTPConfig, error) {
 	host := os.Getenv("SMTP_HOST")         // ssl0.ovh.net
 	port := os.Getenv("SMTP_PORT")         // 587
-	user := os.Getenv("SMTP_USER")         // noreply@robertai.fr
+	user := os.Getenv("SMTP_USER")         // noreply@example.com
 	password := os.Getenv("SMTP_PASSWORD") // UP2Q2w4uDM967wXdRueT
 
 	if host == "" {
@@ -83,7 +83,7 @@ func OVHServiceFromEnv(recoverTemplate *template.Template) (*EmailService, error
 
 	displayName := os.Getenv("SMTP_DISPLAYNAME")
 	if displayName == "" {
-		displayName = "RobertAI" // default display name
+		displayName = "ExampleApp" // default display name
 	}
 
 	return NewEmailService(config, displayName, recoverTemplate), nil

@@ -1,7 +1,7 @@
 package authHandler
 
 import (
-	"backend-template/models/user"
+	"example.com/template/models/user"
 	"fmt"
 	"net/http"
 
@@ -29,7 +29,7 @@ type SignoutError403 struct {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param Robert-Connect-Token header string true "Session token"
+// @Param Auth-Token header string true "Session token"
 // @Param signoutForm body SignoutForm true "Signout form"
 // @Success 200 {object} SignoutResponse
 // @Failure 400 {object} SignoutError400

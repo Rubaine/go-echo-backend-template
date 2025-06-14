@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"backend-template/config"
-	"backend-template/handlers"
+	"example.com/template/config"
+	"example.com/template/handlers"
 
 	"github.com/charmbracelet/log"
 	"github.com/labstack/echo/v4"
@@ -20,7 +20,7 @@ func main() {
 	api.HideBanner = true
 	api.HTTPErrorHandler = handlers.OnError
 
-	origins := []string{"https://site.fr",}
+	origins := []string{"https://site.fr"}
 	if log.GetLevel() == log.DebugLevel {
 		origins = append(origins, "*") // Allow all origins in debug mode
 	}

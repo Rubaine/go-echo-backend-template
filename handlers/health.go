@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	config "backend-template/config"
-	models "backend-template/models"
+	config "example.com/template/config"
+	models "example.com/template/models"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

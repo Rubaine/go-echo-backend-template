@@ -1,8 +1,8 @@
 package main
 
 import (
-	"backend-template/config"
-	"backend-template/models/postgresql"
+	"example.com/template/config"
+	"example.com/template/models/postgresql"
 	"time"
 
 	"github.com/charmbracelet/log"

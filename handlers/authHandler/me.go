@@ -1,7 +1,7 @@
 package authHandler
 
 import (
-	"backend-template/models/user"
+	"example.com/template/models/user"
 	"net/http"
 
 	"github.com/jackc/pgx/v4"
@@ -30,7 +30,7 @@ type MeError struct {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param Robert-Connect-Token header string true "Session token"
+// @Param Auth-Token header string true "Session token"
 // @Success 200 {object} UserResponse
 // @Failure 401 {object} MeError
 // @Router /auth/me [get]
@@ -58,7 +58,7 @@ func me(c echo.Context) error {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param Robert-Connect-Token header string true "Session token"
+// @Param Auth-Token header string true "Session token"
 // @Param user body UpdateUserRequest true "User update data"
 // @Success 200 {object} UserResponse
 // @Failure 400 {object} MeError
