@@ -1,0 +1,845 @@
+definitions:
+  authHandler.AskRecoverForm:
+    properties:
+      email:
+        type: string
+    type: object
+  authHandler.LoginError400:
+    properties:
+      message:
+        example: Please fully fill in the login form
+        type: string
+    type: object
+  authHandler.LoginError403:
+    properties:
+      message:
+        example: Invalid email or password
+        type: string
+    type: object
+  authHandler.LoginForm:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      token:
+        type: string
+    type: object
+  authHandler.LoginResponse:
+    properties:
+      token:
+        type: string
+      user:
+        properties:
+          email:
+            type: string
+          firstname:
+            type: string
+          id:
+            type: integer
+          lastname:
+            type: string
+        type: object
+    type: object
+  authHandler.LogoutError401:
+    properties:
+      message:
+        example: Invalid session
+        type: string
+    type: object
+  authHandler.LogoutResponse:
+    properties:
+      message:
+        example: Logged out successfully
+        type: string
+    type: object
+  authHandler.MeError:
+    properties:
+      message:
+        example: Incorrect token
+        type: string
+    type: object
+  authHandler.PasswordResetError400:
+    properties:
+      message:
+        example: Please fully fill in the password reset form
+        type: string
+    type: object
+  authHandler.PasswordResetError403:
+    properties:
+      message:
+        example: Invalid recover token
+        type: string
+    type: object
+  authHandler.PasswordResetForm:
+    properties:
+      password:
+        type: string
+      token:
+        type: string
+    type: object
+  authHandler.PasswordResetResponse:
+    properties:
+      message:
+        example: Password reset successfully
+        type: string
+    type: object
+  authHandler.RecoverError400:
+    properties:
+      message:
+        example: Please fully fill in the account recovery form
+        type: string
+    type: object
+  authHandler.RecoverResponse:
+    properties:
+      message:
+        example: Recovery token created successfully
+        type: string
+    type: object
+  authHandler.SignoutError400:
+    properties:
+      message:
+        example: Empty password
+        type: string
+    type: object
+  authHandler.SignoutError403:
+    properties:
+      message:
+        example: Invalid password
+        type: string
+    type: object
+  authHandler.SignoutForm:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+  authHandler.SignoutResponse:
+    properties:
+      message:
+        example: Signout successful
+        type: string
+    type: object
+  authHandler.SignupError400:
+    properties:
+      message:
+        example: Please fully fill in the signup form
+        type: string
+    type: object
+  authHandler.SignupError409:
+    properties:
+      message:
+        example: Email not available
+        type: string
+    type: object
+  authHandler.SignupForm:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      firstname:
+        example: John
+        type: string
+      lastname:
+        example: Doe
+        type: string
+      password:
+        example: Password123!
+        type: string
+    type: object
+  authHandler.SignupResponse:
+    properties:
+      message:
+        example: Signup successful
+        type: string
+    type: object
+  authHandler.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+    type: object
+  authHandler.UserResponse:
+    properties:
+      email:
+        type: string
+      firstname:
+        type: string
+      id:
+        type: integer
+      lastname:
+        type: string
+    type: object
+  chat.ChatMessage:
+    properties:
+      bot_response:
+        type: string
+      chat_session_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      user_message:
+        type: string
+    type: object
+  chat.ChatSession:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  chatHandler.AddMessageForm:
+    properties:
+      bot_response:
+        type: string
+      user_message:
+        type: string
+    type: object
+  chatHandler.AddMessageResponse:
+    properties:
+      message_id:
+        type: integer
+    type: object
+  chatHandler.ChatMailForm:
+    properties:
+      body:
+        type: string
+      sender:
+        type: string
+    type: object
+  chatHandler.ChatMailResponse:
+    properties:
+      response:
+        type: string
+    type: object
+  chatHandler.ChatPageForm:
+    properties:
+      body:
+        type: string
+      url:
+        type: string
+    type: object
+  chatHandler.ChatPageResponse:
+    properties:
+      response:
+        type: string
+    type: object
+  chatHandler.ChatQueryForm:
+    properties:
+      context:
+        type: string
+      query:
+        type: string
+      session_id:
+        type: integer
+    type: object
+  chatHandler.ChatQueryResponse:
+    properties:
+      response:
+        type: string
+    type: object
+  chatHandler.CreateSessionForm:
+    properties:
+      first_message:
+        type: string
+    type: object
+  chatHandler.CreateSessionResponse:
+    properties:
+      session_id:
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@robertai.fr
+    name: API Support
+    url: https://robertai.fr/support
+  description: This is the Robert AI API documentation.
+  termsOfService: https://robertai.fr/terms/
+  title: Robert AI API
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user using email/password or token.
+      parameters:
+      - description: Login form
+        in: body
+        name: loginForm
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.LoginForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token and user details
+          schema:
+            $ref: '#/definitions/authHandler.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.LoginError400'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/authHandler.LoginError403'
+      summary: User login
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logs out the user by revoking their token
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/authHandler.LogoutResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/authHandler.LogoutError401'
+      summary: Logout user
+      tags:
+      - auth
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Get details of the authenticated user
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/authHandler.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/authHandler.MeError'
+      summary: Get user details
+      tags:
+      - auth
+    post:
+      consumes:
+      - application/json
+      description: Update details of the authenticated user
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: User update data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/authHandler.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.MeError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/authHandler.MeError'
+      summary: Update user details
+      tags:
+      - auth
+  /auth/recover:
+    post:
+      consumes:
+      - application/json
+      description: Generates a recovery token for the user to reset their password.
+      parameters:
+      - description: Account recovery form
+        in: body
+        name: askRecoverForm
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.AskRecoverForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/authHandler.RecoverResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.RecoverError400'
+      summary: Account Recovery
+      tags:
+      - auth
+  /auth/reset_password:
+    post:
+      consumes:
+      - application/json
+      description: Reset the password for a user using a recovery token
+      parameters:
+      - description: Password Reset Form
+        in: body
+        name: passwordResetForm
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.PasswordResetForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/authHandler.PasswordResetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.PasswordResetError400'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/authHandler.PasswordResetError403'
+      summary: Reset user password
+      tags:
+      - auth
+  /auth/signout:
+    post:
+      consumes:
+      - application/json
+      description: Sign out the authenticated user
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Signout form
+        in: body
+        name: signoutForm
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.SignoutForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/authHandler.SignoutResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.SignoutError400'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/authHandler.SignoutError403'
+      summary: Sign out user
+      tags:
+      - auth
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account
+      parameters:
+      - description: Signup form
+        in: body
+        name: signupForm
+        required: true
+        schema:
+          $ref: '#/definitions/authHandler.SignupForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/authHandler.SignupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/authHandler.SignupError400'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/authHandler.SignupError409'
+      summary: Signup a new user
+      tags:
+      - auth
+  /chat/mail:
+    post:
+      consumes:
+      - application/json
+      description: Analyze a mail and return a response
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Chat page form
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.ChatMailForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/chatHandler.ChatMailResponse'
+      summary: Mail analysis
+      tags:
+      - chat
+  /chat/page/analyze:
+    post:
+      consumes:
+      - application/json
+      description: Analyze a page content and return a response
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Chat page form
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.ChatPageForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/chatHandler.ChatPageResponse'
+      summary: Page analysis
+      tags:
+      - chat
+  /chat/page/resume:
+    post:
+      consumes:
+      - application/json
+      description: Analyze a page content and return a summary
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Chat page form
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.ChatPageForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/chatHandler.ChatPageResponse'
+      summary: Page resume
+      tags:
+      - chat
+  /chat/query:
+    post:
+      consumes:
+      - application/json
+      description: Handle a chat query and return a response with optional session
+        context
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Chat query form
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.ChatQueryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/chatHandler.ChatQueryResponse'
+      summary: Chat query
+      tags:
+      - chat
+  /chat/sessions:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all chat sessions for the authenticated user
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of chat sessions
+          schema:
+            items:
+              $ref: '#/definitions/chat.ChatSession'
+            type: array
+        "401":
+          description: Authentication required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all chat sessions for the authenticated user
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Create a new chat session with an initial message
+      parameters:
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Create session form
+        in: body
+        name: createSessionForm
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.CreateSessionForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Session created successfully
+          schema:
+            $ref: '#/definitions/chatHandler.CreateSessionResponse'
+        "400":
+          description: First message is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Authentication required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new chat session
+      tags:
+      - chat
+  /chat/sessions/{sessionId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific chat session
+      parameters:
+      - description: Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: integer
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Session deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid session ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Authentication required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a chat session
+      tags:
+      - chat
+  /chat/sessions/{sessionId}/messages:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all messages for a specific chat session
+      parameters:
+      - description: Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: integer
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of chat messages
+          schema:
+            items:
+              $ref: '#/definitions/chat.ChatMessage'
+            type: array
+        "400":
+          description: Invalid session ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Authentication required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get messages for a specific chat session
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Add a message to a specific chat session
+      parameters:
+      - description: Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: integer
+      - description: Session token
+        in: header
+        name: Robert-Connect-Token
+        required: true
+        type: string
+      - description: Add message form
+        in: body
+        name: addMessageForm
+        required: true
+        schema:
+          $ref: '#/definitions/chatHandler.AddMessageForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Message added successfully
+          schema:
+            $ref: '#/definitions/chatHandler.AddMessageResponse'
+        "400":
+          description: Invalid session ID or missing fields
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Authentication required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Session not found or access denied
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new chat session message
+      tags:
+      - chat
+swagger: "2.0"

@@ -1,0 +1,35 @@
+services:
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: rubaine
+      POSTGRES_PASSWORD: caca
+      POSTGRES_DB: marketplace
+    volumes:
+      - database:/var/lib/postgresql/data
+  backend:
+    build: .
+    ports:
+      - target: 80
+        published: 5000
+        protocol: tcp
+        mode: host
+    depends_on:
+      - database
+    environment:
+      - POSTGRES_USER=rubaine
+      - POSTGRES_PASSWORD=caca
+      - POSTGRES_HOST=database
+      - POSTGRES_DB=marketplace
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=no
+      - SMTP_PASSWORD=no
+      - SMTP_DISPLAYNAME=no
+      - FRONT_URL=https://robertai.fr
+      - LOG_LEVEL=debug
+      - LISTEN_PORT=80
+      - MAX_BODY_SIZE=20M
+
+volumes:
+  database:
