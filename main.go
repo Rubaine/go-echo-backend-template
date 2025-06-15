@@ -1,10 +1,12 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"os"
 
 	"example.com/template/config"
+	_ "example.com/template/docs"
 	"example.com/template/handlers"
 
 	"github.com/charmbracelet/log"
@@ -13,6 +15,17 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
+//go:embed public/*
+var Folder embed.FS
+
+// @title Echo Backend Template API
+// @version 1.0
+// @description This is a template for a Go Echo backend API.
+// @termsOfService https://example.com/terms
+
+// @contact.name API Support
+// @contact.url https://example.com/support
+// @contact.email
 func main() {
 
 	// Initialize echo

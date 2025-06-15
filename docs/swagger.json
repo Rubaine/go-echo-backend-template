@@ -1,0 +1,640 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a template for a Go Echo backend API.",
+        "title": "Echo Backend Template API",
+        "termsOfService": "https://example.com/terms",
+        "contact": {
+            "name": "API Support",
+            "url": "https://example.com/support"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "Logs in a user using email/password or token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "description": "Login form",
+                        "name": "loginForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LoginForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token and user details",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LoginError400"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LoginError403"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "description": "Logs out the user by revoking their token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LogoutResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.LogoutError401"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "description": "Get details of the authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get user details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.UserResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.MeError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Update details of the authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Update user details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "User update data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.MeError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.MeError"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/recover": {
+            "post": {
+                "description": "Generates a recovery token for the user to reset their password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Account Recovery",
+                "parameters": [
+                    {
+                        "description": "Account recovery form",
+                        "name": "askRecoverForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.AskRecoverForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.RecoverResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.RecoverError400"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/reset_password": {
+            "post": {
+                "description": "Reset the password for a user using a recovery token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Reset user password",
+                "parameters": [
+                    {
+                        "description": "Password Reset Form",
+                        "name": "passwordResetForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.PasswordResetForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.PasswordResetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.PasswordResetError400"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.PasswordResetError403"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/signout": {
+            "post": {
+                "description": "Sign out the authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign out user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Signout form",
+                        "name": "signoutForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignoutForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignoutError400"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignoutError403"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/signup": {
+            "post": {
+                "description": "Create a new user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Signup a new user",
+                "parameters": [
+                    {
+                        "description": "Signup form",
+                        "name": "signupForm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignupForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignupResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignupError400"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/authHandler.SignupError409"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "authHandler.AskRecoverForm": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "authHandler.LoginError400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Please fully fill in the login form"
+                }
+            }
+        },
+        "authHandler.LoginError403": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid email or password"
+                }
+            }
+        },
+        "authHandler.LoginForm": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "authHandler.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string"
+                        },
+                        "firstname": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "integer"
+                        },
+                        "lastname": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "authHandler.LogoutError401": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid session"
+                }
+            }
+        },
+        "authHandler.LogoutResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Logged out successfully"
+                }
+            }
+        },
+        "authHandler.MeError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Incorrect token"
+                }
+            }
+        },
+        "authHandler.PasswordResetError400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Please fully fill in the password reset form"
+                }
+            }
+        },
+        "authHandler.PasswordResetError403": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid recover token"
+                }
+            }
+        },
+        "authHandler.PasswordResetForm": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "authHandler.PasswordResetResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Password reset successfully"
+                }
+            }
+        },
+        "authHandler.RecoverError400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Please fully fill in the account recovery form"
+                }
+            }
+        },
+        "authHandler.RecoverResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Recovery token created successfully"
+                }
+            }
+        },
+        "authHandler.SignoutError400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Empty password"
+                }
+            }
+        },
+        "authHandler.SignoutError403": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid password"
+                }
+            }
+        },
+        "authHandler.SignoutForm": {
+            "type": "object",
+            "required": [
+                "password"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "authHandler.SignoutResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Signout successful"
+                }
+            }
+        },
+        "authHandler.SignupError400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Please fully fill in the signup form"
+                }
+            }
+        },
+        "authHandler.SignupError409": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Email not available"
+                }
+            }
+        },
+        "authHandler.SignupForm": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "firstname": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "lastname": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Password123!"
+                }
+            }
+        },
+        "authHandler.SignupResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Signup successful"
+                }
+            }
+        },
+        "authHandler.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                }
+            }
+        },
+        "authHandler.UserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastname": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -25,5 +25,3 @@ go.work.sum
 # Local compose override
 dev.docker-compose.yml
 
-# Generated docs
-docs/
