@@ -6,7 +6,7 @@ Il est pensé pour être cloné via **degit** puis initialisé rapidement.
 ## Installation rapide
 
 ```bash
-npx degit username/go-echo-template mon-projet
+npx degit Rubaine/go-echo-backend-template mon-projet
 cd mon-projet
 ./init.sh
 ```
